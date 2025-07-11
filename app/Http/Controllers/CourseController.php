@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Purchase;
 
 class CourseController extends Controller
 {
@@ -38,6 +39,15 @@ class CourseController extends Controller
     public function show(string $id)
     {
         $course = Course::findOrFail($id);
+        $user = auth()->user();
+        if ($user->role === 'administrateur') {
+            return response()->json($course);
+        }
+        // Vérifier si l'étudiant a acheté le cours
+        $hasPurchased = Purchase::where('user_id', $user->id)->where('course_id', $course->id)->exists();
+        if (!$hasPurchased) {
+            return response()->json(['error' => 'Vous devez acheter ce cours pour accéder au contenu'], 403);
+        }
         return response()->json($course);
     }
 
