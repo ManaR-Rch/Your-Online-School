@@ -11,9 +11,15 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    // Liste publique avec filtre par mot-clé
+    public function index(Request $request)
     {
-        return Course::all();
+        $query = Course::query();
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where('title', 'like', "%$keyword%");
+        }
+        return $query->get();
     }
 
     /**
@@ -36,18 +42,10 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
+    // Détail public d'un cours
     public function show(string $id)
     {
         $course = Course::findOrFail($id);
-        $user = auth()->user();
-        if ($user->role === 'administrateur') {
-            return response()->json($course);
-        }
-        // Vérifier si l'étudiant a acheté le cours
-        $hasPurchased = Purchase::where('user_id', $user->id)->where('course_id', $course->id)->exists();
-        if (!$hasPurchased) {
-            return response()->json(['error' => 'Vous devez acheter ce cours pour accéder au contenu'], 403);
-        }
         return response()->json($course);
     }
 
