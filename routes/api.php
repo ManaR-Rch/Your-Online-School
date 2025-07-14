@@ -7,6 +7,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProgressionController;
+use App\Http\Controllers\FavoriteController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -21,6 +22,9 @@ Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
 
 Route::middleware(['auth:api'])->group(function () {
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/favorites', [FavoriteController::class, 'store']);
+    Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/notes', [NoteController::class, 'store']);
     Route::get('/notes', [NoteController::class, 'index']);
     Route::patch('/progressions', [ProgressionController::class, 'update']);

@@ -62,4 +62,10 @@ class AuthController extends Controller
     {
         return response()->json(auth()->user());
     }
+
+    // GET /api/profile
+    public function profile()
+    {
+        return response()->json(auth()->user());
+    }
 }
