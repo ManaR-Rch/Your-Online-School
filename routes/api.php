@@ -8,6 +8,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProgressionController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\AdminController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,4 +30,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/notes', [NoteController::class, 'index']);
     Route::patch('/progressions', [ProgressionController::class, 'update']);
     Route::get('/progressions', [ProgressionController::class, 'index']);
-}); 
+});
+
+Route::middleware(['auth:api', 'admin'])->get('/admin/stats', [AdminController::class, 'stats']); 

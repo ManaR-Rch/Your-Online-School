@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "school-api-collection-001",
+    "name": "School API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/register", "host": ["{{base_url}}"], "path": ["api", "register"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\",\n  \"role\": \"etudiant\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/login", "host": ["{{base_url}}"], "path": ["api", "login"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Me (token)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/me", "host": ["{{base_url}}"], "path": ["api", "me"] }
+      }
+    },
+    {
+      "name": "Profile (token)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/profile", "host": ["{{base_url}}"], "path": ["api", "profile"] }
+      }
+    },
+    {
+      "name": "Courses - Liste (public)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/api/courses", "host": ["{{base_url}}"], "path": ["api", "courses"] }
+      }
+    },
+    {
+      "name": "Courses - Détail (public)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] }
+      }
+    },
+    {
+      "name": "Courses - Filtre par mot-clé (public)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/api/courses?keyword=math", "host": ["{{base_url}}"], "path": ["api", "courses"], "query": [{"key": "keyword", "value": "math"}] }
+      }
+    },
+    {
+      "name": "Courses - Créer (admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token_admin}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/courses", "host": ["{{base_url}}"], "path": ["api", "courses"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Mathématiques\",\n  \"description\": \"Cours de maths avancé\",\n  \"price\": 49.99,\n  \"video_url\": \"http://...\",\n  \"documents_url\": \"http://...\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Courses - Modifier (admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token_admin}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Maths modifié\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Courses - Supprimer (admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] }
+      }
+    },
+    {
+      "name": "Upload (admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/upload", "host": ["{{base_url}}"], "path": ["api", "upload"] },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "file", "type": "file", "src": "" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Purchase (étudiant)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/purchase", "host": ["{{base_url}}"], "path": ["api", "purchase"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"course_id\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "Notes - Ajouter (étudiant)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/notes", "host": ["{{base_url}}"], "path": ["api", "notes"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"course_id\": 1,\n  \"content\": \"Ma note perso\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Notes - Liste (étudiant)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/notes", "host": ["{{base_url}}"], "path": ["api", "notes"] }
+      }
+    },
+    {
+      "name": "Progression - Mettre à jour (étudiant)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/progressions", "host": ["{{base_url}}"], "path": ["api", "progressions"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"course_id\": 1,\n  \"percent_done\": 50\n}"
+        }
+      }
+    },
+    {
+      "name": "Progression - Liste (étudiant)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/progressions", "host": ["{{base_url}}"], "path": ["api", "progressions"] }
+      }
+    },
+    {
+      "name": "Favoris - Ajouter (étudiant)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{base_url}}/api/favorites", "host": ["{{base_url}}"], "path": ["api", "favorites"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"course_id\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "Favoris - Liste (étudiant)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/favorites", "host": ["{{base_url}}"], "path": ["api", "favorites"] }
+      }
+    },
+    {
+      "name": "Admin - Statistiques (admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token_admin}}" }
+        ],
+        "url": { "raw": "{{base_url}}/api/admin/stats", "host": ["{{base_url}}"], "path": ["api", "admin", "stats"] }
+      }
+    }
+  ]
+} 
